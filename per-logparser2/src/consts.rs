@@ -9,6 +9,6 @@ pub const ID_OFFSET: usize = 9;
 pub const DLC_OFFSET: usize = 10;
 pub const DATA_OFFSET: usize = 11;
 
-pub const MAX_JUMP_MS: u32 = 300;
+pub const MAX_JUMP_MS: u32 = 300_000; // 300 seconds
 
 pub const BIN_WIDTH_MS: u32 = 15;
