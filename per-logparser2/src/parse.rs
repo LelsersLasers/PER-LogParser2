@@ -2,12 +2,12 @@ use crate::consts;
 
 pub struct ParsedMessage {
     pub timestamp: u32,
-    pub decoded: Option<can_unpack::DecodedMessage>,
+    pub decoded: Option<can_decode::DecodedMessage>,
 }
 
 pub fn parse_log_files(
     in_folder: &std::path::Path,
-    parser: &can_unpack::Parser,
+    parser: &can_decode::Parser,
 ) -> Vec<ParsedMessage> {
     let mut all_parsed = Vec::new();
     let mut file_paths = std::fs::read_dir(in_folder)
@@ -28,7 +28,7 @@ pub fn parse_log_files(
     all_parsed
 }
 
-fn parse_log_file(in_file: &std::path::Path, parser: &can_unpack::Parser) -> Vec<ParsedMessage> {
+fn parse_log_file(in_file: &std::path::Path, parser: &can_decode::Parser) -> Vec<ParsedMessage> {
     let content = std::fs::read(in_file).unwrap();
     let mut offset = 0;
     let mut parsed = Vec::new();

@@ -72,9 +72,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "can_unpack"
-version = "0.1.0"
-source = "git+https://github.com/LelsersLasers/can_unpack#3b6cbb423185ab3bcd402ec5fdda69f471774a05"
+name = "can_decode"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d0a4cedb4a1187c61f30e7f73704e44e7d88ccab122cfdb32ffaeff1458206d5"
 dependencies = [
  "can-dbc",
  "log",
@@ -262,7 +263,7 @@ name = "per-logparser2"
 version = "0.1.0"
 dependencies = [
  "can-dbc",
- "can_unpack",
+ "can_decode",
  "clap",
  "csv",
  "env_logger",

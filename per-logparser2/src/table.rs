@@ -21,12 +21,12 @@ impl TableBuilder {
         }
     }
 
-    pub fn create_header(&mut self, parser: &can_unpack::Parser) {
+    pub fn create_header(&mut self, parser: &can_decode::Parser) {
         let mut message_defs = parser.msg_defs();
-		message_defs.sort_by_key(|m| match m.message_id() {
-			can_dbc::MessageId::Standard(id) => *id as u32,
-			can_dbc::MessageId::Extended(id) => *id,
-		});
+        message_defs.sort_by_key(|m| match m.message_id() {
+            can_dbc::MessageId::Standard(id) => *id as u32,
+            can_dbc::MessageId::Extended(id) => *id,
+        });
 
         self.bus_row.push("Bus".to_string());
         self.node_row.push("Node".to_string());
@@ -76,7 +76,7 @@ impl TableBuilder {
             let first_time = chunk.first().map(|m| m.timestamp).unwrap_or(0);
             let last_time = chunk.last().map(|m| m.timestamp).unwrap_or(0);
 
-			let first_row_time = (first_time / consts::BIN_WIDTH_MS) * consts::BIN_WIDTH_MS;
+            let first_row_time = (first_time / consts::BIN_WIDTH_MS) * consts::BIN_WIDTH_MS;
             let last_row_time = last_time.div_ceil(consts::BIN_WIDTH_MS) * consts::BIN_WIDTH_MS;
             let num_rows = ((last_row_time - first_row_time) / consts::BIN_WIDTH_MS) + 1;
 
@@ -84,9 +84,9 @@ impl TableBuilder {
 
             for row_idx in 0..num_rows {
                 let row_time = first_row_time + row_idx * consts::BIN_WIDTH_MS;
-				let row_time_sec = row_time as f32 / 1000.0;
+                let row_time_sec = row_time as f32 / 1000.0;
                 let mut row = vec!["".to_string(); self.bus_row.len()];
-				row[0] = format!("{:.3}", row_time_sec);
+                row[0] = format!("{:.3}", row_time_sec);
                 csv_table.push(row);
             }
 
