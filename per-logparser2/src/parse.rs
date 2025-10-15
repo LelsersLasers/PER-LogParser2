@@ -50,12 +50,12 @@ fn parse_log_file(in_file: &std::path::Path, parser: &can_unpack::Parser) -> Vec
         offset += consts::MSG_BYTE_LEN;
 
         let is_extended = (can_id & consts::CAN_EFF_FLAG) != 0;
-        let can_id = if is_extended {
+        let arb_id = if is_extended {
             can_id & consts::CAN_EXT_ID_MASK
         } else {
             can_id & consts::CAN_STD_ID_MASK
         };
-        let decoded = parser.decode_msg(can_id, data);
+        let decoded = parser.decode_msg(arb_id, data);
         parsed.push(ParsedMessage { timestamp, decoded });
     }
 
