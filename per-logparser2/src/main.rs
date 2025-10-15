@@ -71,9 +71,8 @@ fn main() {
         std::process::exit(1);
     }
 
-    let mut parser = can_unpack::Parser::new();
-    match parser.add_from_dbc_file(&args.vcan_dbc) {
-        Ok(dbc) => dbc,
+    let parser = match can_unpack::Parser::from_dbc_file(&args.vcan_dbc) {
+        Ok(p) => p,
         Err(e) => {
             eprintln!("Error parsing DBC file: {}", e);
             std::process::exit(1);

@@ -22,7 +22,7 @@ impl TableBuilder {
     }
 
     pub fn create_header(&mut self, parser: &can_unpack::Parser) {
-        let mut message_defs = parser.messages();
+        let mut message_defs = parser.msg_defs();
 		message_defs.sort_by_key(|m| match m.message_id() {
 			can_dbc::MessageId::Standard(id) => *id as u32,
 			can_dbc::MessageId::Extended(id) => *id,
