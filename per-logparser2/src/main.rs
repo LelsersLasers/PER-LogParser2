@@ -63,7 +63,10 @@ fn validate_paths(args: &Args) -> Result<(), String> {
 }
 
 fn main() {
-    env_logger::init();
+    env_logger::Builder::from_default_env()
+        .filter_level(log::LevelFilter::Info)
+        .init();
+
 
     let args = Args::parse();
     if let Err(e) = validate_paths(&args) {
