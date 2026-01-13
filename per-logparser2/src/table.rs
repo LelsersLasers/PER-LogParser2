@@ -91,16 +91,15 @@ impl TableBuilder {
             }
 
             for msg in chunk {
-                if let Some(decoded) = &msg.decoded {
-                    for (sig_name, sig_value) in &decoded.signals {
-                        let key = format!("{}|{}", decoded.name, sig_name);
-                        if let Some(&col_idx) = self.indexer.get(&key) {
-                            let row_idx = (msg.timestamp - first_row_time) / consts::BIN_WIDTH_MS;
-                            if let Some(row) = csv_table.get_mut(row_idx as usize + 4)
-                                && let Some(cell) = row.get_mut(col_idx)
-                            {
-                                *cell = sig_value.value.to_string();
-                            }
+                let decoded = &msg.decoded;
+                for (sig_name, sig_value) in &decoded.signals {
+                    let key = format!("{}|{}", decoded.name, sig_name);
+                    if let Some(&col_idx) = self.indexer.get(&key) {
+                        let row_idx = (msg.timestamp - first_row_time) / consts::BIN_WIDTH_MS;
+                        if let Some(row) = csv_table.get_mut(row_idx as usize + 4)
+                            && let Some(cell) = row.get_mut(col_idx)
+                        {
+                            *cell = sig_value.value.to_string();
                         }
                     }
                 }

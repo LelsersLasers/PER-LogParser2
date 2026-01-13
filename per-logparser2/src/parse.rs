@@ -2,7 +2,7 @@ use crate::consts;
 
 pub struct ParsedMessage {
     pub timestamp: u32,
-    pub decoded: Option<can_decode::DecodedMessage>,
+    pub decoded: can_decode::DecodedMessage,
 }
 
 pub fn parse_log_files(
@@ -55,8 +55,16 @@ fn parse_log_file(in_file: &std::path::Path, parser: &can_decode::Parser) -> Vec
         } else {
             can_id & consts::CAN_STD_ID_MASK
         };
-        let decoded = parser.decode_msg(arb_id, data);
-        parsed.push(ParsedMessage { timestamp, decoded });
+        if let Some(decoded) = parser.decode_msg(arb_id, data) {
+            parsed.push(ParsedMessage { timestamp, decoded });
+        } else {
+             log::error!(
+                "Failed to parse: frame ID 0x{:X} ({}), data: {:02X?}",
+                arb_id,
+                arb_id,
+                data
+            );
+        }
     }
 
     parsed
